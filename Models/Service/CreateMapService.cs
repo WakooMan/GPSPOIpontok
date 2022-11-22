@@ -5,11 +5,9 @@ namespace GPSPOIpontok.Models.Service
 {
     public class CreateMapService : Service
     {
-        private readonly Func<Map> GetMap;
-        public CreateMapService(Func<Map> getMap) : base()
+        public CreateMapService(CreateMapViewModel ViewModel) : base()
         {
-            GetMap = getMap;
-            commands.Add(new CreateMapCommand(GetMap));
+            commands.Add(new CreateMapCommand(ViewModel));
         }
     }
 }

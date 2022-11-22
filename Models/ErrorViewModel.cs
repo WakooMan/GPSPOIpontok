@@ -1,4 +1,4 @@
-namespace GPSPOIpontok.Models.Domain
+namespace GPSPOIpontok.Models
 {
     public class ErrorViewModel
     {

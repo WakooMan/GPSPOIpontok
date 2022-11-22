@@ -5,14 +5,22 @@ namespace GPSPOIpontok.Models.Service.Commands
     public class AddPOICommand : ICommand
     {
         public string Name => "AddPOI";
-
-        public AddPOICommand()
+        private readonly ViewMapViewModel ViewModel;
+        public AddPOICommand(ViewMapViewModel viewModel)
         {
+            ViewModel = viewModel;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            if (ViewModel.SelectedMap is not null && ViewModel.SelectedPOI is not null)
+            {
+                DataStore.Instance.AddPOI(ViewModel.SelectedMap, ViewModel.SelectedPOI);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }

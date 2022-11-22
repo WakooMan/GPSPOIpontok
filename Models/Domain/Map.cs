@@ -3,7 +3,8 @@
     public class Map
     {
         private List<POI> _pointOfInterests = new List<POI>();
-        public Image ImageFile { get; set; }
+        //public Image ImageFile { get; set; }
+        public string Name { get; set; }
         public Direction MapDirection { get; set; }
         public Ratio MapRatio { get; set; }
         public Coordinate MaximumCoordinate { get; set; }
@@ -15,6 +16,10 @@
             {
                 _pointOfInterests.Add(poi);
             }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         public void RemovePOI(POI poi)
@@ -22,6 +27,22 @@
             if (_pointOfInterests.Contains(poi))
             {
                 _pointOfInterests.Remove(poi);
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        }
+
+        public void ReplacePOI(POI oldPOI,POI newPOI)
+        {
+            if (_pointOfInterests.Contains(oldPOI))
+            {
+                _pointOfInterests[ _pointOfInterests.FindIndex(poi => poi.Equals(oldPOI))] = newPOI;
+            }
+            else
+            {
+                throw new ArgumentException();
             }
         }
 
@@ -31,10 +52,15 @@
             {
                 poi.Coordinate = coord;
             }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
-        public Map(Image imageFile, Direction mapDirection, Ratio mapRatio, Coordinate minCoord, Coordinate maxCoord)
+        public Map(string name,Direction mapDirection, Ratio mapRatio, Coordinate minCoord, Coordinate maxCoord)
         {
-            ImageFile = imageFile;
+            //ImageFile = imageFile;
+            Name = name;
             MapDirection = mapDirection;
             MapRatio = mapRatio;
             MinimumCoordinate = minCoord;
@@ -57,14 +83,14 @@
                         return false;
                     }
                 }
-                return ImageFile.Equals(othermap.ImageFile) && MapDirection.Equals(othermap.MapDirection) && MapRatio.Equals(othermap.MapRatio) && MaximumCoordinate.Equals(othermap.MaximumCoordinate) && MinimumCoordinate.Equals(othermap.MinimumCoordinate);
+                return Name.Equals(othermap.Name) && MapDirection.Equals(othermap.MapDirection) && MapRatio.Equals(othermap.MapRatio) && MaximumCoordinate.Equals(othermap.MaximumCoordinate) && MinimumCoordinate.Equals(othermap.MinimumCoordinate);
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            int hashcode = ImageFile.GetHashCode() + MapDirection.GetHashCode() + MapRatio.GetHashCode() + MaximumCoordinate.GetHashCode() + MinimumCoordinate.GetHashCode();
+            int hashcode = MapDirection.GetHashCode() + MapRatio.GetHashCode() + MaximumCoordinate.GetHashCode() + MinimumCoordinate.GetHashCode() + Name.GetHashCode();
             foreach (POI poi in _pointOfInterests)
             {
                 hashcode += poi.GetHashCode();

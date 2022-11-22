@@ -5,14 +5,22 @@ namespace GPSPOIpontok.Models.Service.Commands
     public class RemovePOICommand : ICommand
     {
         public string Name => "RemovePOI";
-
-        public RemovePOICommand()
+        private readonly ViewMapViewModel ViewModel;
+        public RemovePOICommand(ViewMapViewModel viewModel)
         {
+            ViewModel = viewModel;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            if (ViewModel.SelectedMap is not null && ViewModel.SelectedPOI is not null)
+            {
+                DataStore.Instance.RemovePOI(ViewModel.SelectedMap, ViewModel.SelectedPOI);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }

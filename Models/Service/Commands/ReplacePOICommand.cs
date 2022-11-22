@@ -5,14 +5,22 @@ namespace GPSPOIpontok.Models.Service.Commands
     public class ReplacePOICommand : ICommand
     {
         public string Name => "ReplacePOI";
-
-        public ReplacePOICommand()
+        private readonly ViewMapViewModel ViewModel;
+        public ReplacePOICommand(ViewMapViewModel viewModel)
         {
+            ViewModel = viewModel;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            if (ViewModel.SelectedMap is not null && ViewModel.SelectedPOI is not null && ViewModel.NewPOI is not null)
+            {
+                DataStore.Instance.ReplacePOI(ViewModel.SelectedMap, ViewModel.SelectedPOI, ViewModel.NewPOI);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }

@@ -5,14 +5,15 @@ namespace GPSPOIpontok.Models.Service.Commands
     public class ChooseMapCommand : ICommand
     {
         public string Name => "ChooseMap";
-
-        public ChooseMapCommand()
+        private readonly ViewMapViewModel ViewModel;
+        public ChooseMapCommand(ViewMapViewModel viewModel)
         {
+            ViewModel = viewModel;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            ViewModel.SelectedMap =DataStore.Instance.GetMap(ViewModel.SelectedIndex);
         }
     }
 }

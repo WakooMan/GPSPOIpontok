@@ -4,17 +4,17 @@ namespace GPSPOIpontok.Models.Service.Commands
 {
     public class CreateMapCommand : ICommand
     {
-        private readonly Func<Map> GetMap;
+        private readonly CreateMapViewModel ViewModel;
         public string Name => "CreateMap";
 
-        public CreateMapCommand(Func<Map> getMap)
+        public CreateMapCommand(CreateMapViewModel viewModel)
         {
-            GetMap = getMap;
+            ViewModel = viewModel;
         }
 
         public void Execute()
         {
-            DataStore.Instance.AddMap(GetMap());
+            DataStore.Instance.AddMap(new Map(ViewModel.MapName,ViewModel.Direction,ViewModel.Ratio,ViewModel.MinCoordinate, ViewModel.MaxCoordinate));
         }
     }
 }
