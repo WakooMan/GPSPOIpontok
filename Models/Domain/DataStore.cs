@@ -1,11 +1,23 @@
-﻿namespace GPSPOIpontok.Models
+﻿namespace GPSPOIpontok.Models.Domain
 {
     public class DataStore
     {
         private List<Map> _maps = new List<Map>();
         public IReadOnlyList<Map> Maps => _maps;
-        public DataStore()
+        private DataStore()
         {
+        }
+        private static DataStore? instance = null;
+        public static DataStore Instance
+        {
+            get
+            {
+                if (instance is null)
+                {
+                    instance = new DataStore();
+                }
+                return instance;
+            }
         }
 
         public void AddMap(Map map)

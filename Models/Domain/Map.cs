@@ -1,4 +1,4 @@
-﻿namespace GPSPOIpontok.Models
+﻿namespace GPSPOIpontok.Models.Domain
 {
     public class Map
     {
@@ -25,14 +25,14 @@
             }
         }
 
-        public void ModifyPOI(POI poi,Coordinate coord)
+        public void ModifyPOI(POI poi, Coordinate coord)
         {
             if (_pointOfInterests.Contains(poi))
             {
                 poi.Coordinate = coord;
             }
         }
-        public Map(Image imageFile,Direction mapDirection,Ratio mapRatio,Coordinate minCoord,Coordinate maxCoord)
+        public Map(Image imageFile, Direction mapDirection, Ratio mapRatio, Coordinate minCoord, Coordinate maxCoord)
         {
             ImageFile = imageFile;
             MapDirection = mapDirection;

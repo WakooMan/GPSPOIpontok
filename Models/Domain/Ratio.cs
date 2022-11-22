@@ -1,4 +1,4 @@
-﻿namespace GPSPOIpontok.Models
+﻿namespace GPSPOIpontok.Models.Domain
 {
     public class Ratio
     {

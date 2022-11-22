@@ -1,4 +1,4 @@
-﻿namespace GPSPOIpontok.Models
+﻿namespace GPSPOIpontok.Models.Domain
 {
     public class POI
     {
@@ -7,7 +7,7 @@
         public Coordinate Coordinate { get; set; }
         public string Category { get; set; }
         public Image Image { get; set; }
-        public POI(Coordinate coord,string name,string description,string category,Image image)
+        public POI(Coordinate coord, string name, string description, string category, Image image)
         {
             Coordinate = coord;
             Name = name;
