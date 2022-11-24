@@ -1,0 +1,12 @@
+﻿@{
+	ViewData["Title"] = "Create Map";
+}
+
+<form enctype="multipart/form-data" method="post">
+
+            <label>File</label><br>
+
+            <input type="file"><br>
+            <span>Error</span><br>
+    <input asp-page-handler="Upload" type="submit" value="Upload" />
+</form>

@@ -1,5 +1,4 @@
 ﻿using GPSPOIpontok.Models.Domain;
-
 namespace GPSPOIpontok.Models.Service.Commands
 {
     public class ChooseMapCommand : ICommand

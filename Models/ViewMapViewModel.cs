@@ -1,6 +1,5 @@
 ﻿using GPSPOIpontok.Models.Domain;
 using GPSPOIpontok.Models.Service;
-
 namespace GPSPOIpontok.Models
 {
     public class ViewMapViewModel
