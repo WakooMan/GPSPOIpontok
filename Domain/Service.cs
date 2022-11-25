@@ -1,9 +1,6 @@
-﻿using GPSPOIpontok.Models.Domain;
-using GPSPOIpontok.Models.Service.Commands;
-
-namespace GPSPOIpontok.Models.Service
+﻿namespace GPSPOIpontok.Domain
 {
-    public abstract class Service : IService
+    public abstract class Service
     {
         protected List<ICommand> commands;
         protected Service()

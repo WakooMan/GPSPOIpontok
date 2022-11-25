@@ -1,21 +1,21 @@
-﻿using GPSPOIpontok.Models.Domain;
+﻿using GPSPOIpontok.Domain;
 
 namespace GPSPOIpontok.Models.Service.Commands
 {
-    public class ReplacePOICommand : ICommand
+    public class ReplacePOICommand : Command
     {
-        public string Name => "ReplacePOI";
+        public override string Name => "ReplacePOI";
         private readonly ViewMapViewModel ViewModel;
         public ReplacePOICommand(ViewMapViewModel viewModel)
         {
             ViewModel = viewModel;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             if (ViewModel.SelectedMap is not null && ViewModel.SelectedPOI is not null && ViewModel.NewPOI is not null)
             {
-                DataStore.Instance.ReplacePOI(ViewModel.SelectedMap, ViewModel.SelectedPOI, ViewModel.NewPOI);
+                Data.ReplacePOI(ViewModel.SelectedMap, ViewModel.SelectedPOI, ViewModel.NewPOI);
             }
             else
             {

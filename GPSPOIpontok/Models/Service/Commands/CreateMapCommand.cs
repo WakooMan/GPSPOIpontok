@@ -1,22 +1,22 @@
-﻿using GPSPOIpontok.Models.Domain;
+﻿using GPSPOIpontok.Domain;
 
 namespace GPSPOIpontok.Models.Service.Commands
 {
-    public class CreateMapCommand : ICommand
+    public class CreateMapCommand : Command
     {
         private readonly CreateMapViewModel ViewModel;
-        public string Name => "CreateMap";
+        public override string Name => "CreateMap";
 
         public CreateMapCommand(CreateMapViewModel viewModel)
         {
             ViewModel = viewModel;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             MemoryStream stream = new MemoryStream();
             ViewModel.Image.CopyTo(stream);
-            DataStore.Instance.AddMap(new Map(ViewModel.MapName,ViewModel.Direction,ViewModel.Ratio,ViewModel.MinCoordinate, ViewModel.MaxCoordinate,stream.ToArray()));
+            Data.AddMap(new Map(ViewModel.MapName,ViewModel.Direction,ViewModel.Ratio,ViewModel.MinCoordinate, ViewModel.MaxCoordinate,stream.ToArray()));
         }
     }
 }

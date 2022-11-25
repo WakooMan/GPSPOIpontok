@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 
-namespace GPSPOIpontok.Models.Domain
+namespace GPSPOIpontok.Domain
 {
     public class POI
     {

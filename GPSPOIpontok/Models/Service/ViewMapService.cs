@@ -1,9 +1,8 @@
-﻿using GPSPOIpontok.Models.Domain;
-using GPSPOIpontok.Models.Service.Commands;
+﻿using GPSPOIpontok.Models.Service.Commands;
 
 namespace GPSPOIpontok.Models.Service
 {
-    public class ViewMapService : Service
+    public class ViewMapService : Domain.Service
     {
         
         public ViewMapService(ViewMapViewModel ViewModel) : base()

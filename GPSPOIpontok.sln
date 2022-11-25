@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPSPOIpontok", "GPSPOIpontok.csproj", "{C84F3BC9-80C1-4AA9-B255-08EB989AA5C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{5B12009B-1A18-4887-BCAF-DA8070B1A303}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GPSPOIpontok", "GPSPOIpontok\GPSPOIpontok.csproj", "{70EEA603-4F4D-46E9-BD93-3088ABDAB8F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C84F3BC9-80C1-4AA9-B255-08EB989AA5C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C84F3BC9-80C1-4AA9-B255-08EB989AA5C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C84F3BC9-80C1-4AA9-B255-08EB989AA5C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C84F3BC9-80C1-4AA9-B255-08EB989AA5C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B12009B-1A18-4887-BCAF-DA8070B1A303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B12009B-1A18-4887-BCAF-DA8070B1A303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B12009B-1A18-4887-BCAF-DA8070B1A303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B12009B-1A18-4887-BCAF-DA8070B1A303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70EEA603-4F4D-46E9-BD93-3088ABDAB8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70EEA603-4F4D-46E9-BD93-3088ABDAB8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70EEA603-4F4D-46E9-BD93-3088ABDAB8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70EEA603-4F4D-46E9-BD93-3088ABDAB8F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

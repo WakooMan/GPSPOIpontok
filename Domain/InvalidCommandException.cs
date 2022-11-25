@@ -1,4 +1,4 @@
-﻿namespace GPSPOIpontok.Models.Service
+﻿namespace GPSPOIpontok.Domain
 {
     public class InvalidCommandException: Exception
     {

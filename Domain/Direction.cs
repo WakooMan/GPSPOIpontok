@@ -1,4 +1,4 @@
-﻿namespace GPSPOIpontok.Models.Domain
+﻿namespace GPSPOIpontok.Domain
 {
     public enum Direction
     {

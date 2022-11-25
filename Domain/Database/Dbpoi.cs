@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GPSPOIpontok.Models;
+namespace Domain.Database;
 
 public partial class Dbpoi
 {

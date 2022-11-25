@@ -1,18 +1,18 @@
-﻿using GPSPOIpontok.Models.Domain;
+﻿using GPSPOIpontok.Domain;
 namespace GPSPOIpontok.Models.Service.Commands
 {
-    public class ChooseMapCommand : ICommand
+    public class ChooseMapCommand : Command
     {
-        public string Name => "ChooseMap";
+        public override string Name => "ChooseMap";
         private readonly ViewMapViewModel ViewModel;
         public ChooseMapCommand(ViewMapViewModel viewModel)
         {
             ViewModel = viewModel;
         }
 
-        public void Execute()
+        public override void Execute()
         {
-            ViewModel.SelectedMap =DataStore.Instance.GetMap(ViewModel.SelectedIndex);
+            ViewModel.SelectedMap =Data.GetMap(ViewModel.SelectedIndex);
         }
     }
 }

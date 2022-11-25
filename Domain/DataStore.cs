@@ -1,4 +1,6 @@
-﻿namespace GPSPOIpontok.Models.Domain
+﻿using Domain.Database;
+
+namespace GPSPOIpontok.Domain
 {
     public class DataStore
     {
@@ -9,9 +11,9 @@
         {
             foreach (Dbmap map in Data.Dbmaps)
             {
-                Map m = new Map(map.Name, Enum.Parse<Direction>(map.Direction), new Ratio(map.Lesser, map.Greater), new Coordinate(map.MinCoordinateLatitude, map.MinCoordinateLongitude), new Coordinate(map.MaxCoordinateLatitude, map.MaxCoordinateLongitude),map.Image);
+                Map m = new Map(map.Name, Enum.Parse<Direction>(map.Direction), new Ratio(map.Lesser, map.Greater), new Coordinate(map.MinCoordinateLatitude, map.MinCoordinateLongitude), new Coordinate(map.MaxCoordinateLatitude, map.MaxCoordinateLongitude), map.Image);
                 m.Id = map.MapId;
-                foreach(Dbpoi poi in map.Dbpois)
+                foreach (Dbpoi poi in map.Dbpois)
                 {
                     POI p = new POI(m, new Coordinate(poi.Latitude, poi.Longitude), poi.Name, poi.Description, poi.Category, poi.Image);
                     p.Id = poi.Poiid;
@@ -21,7 +23,7 @@
             }
         }
         private static DataStore? instance = null;
-        public static DataStore Instance
+        internal static DataStore Instance
         {
             get
             {
@@ -61,7 +63,7 @@
         public void RemoveMap(Map map)
         {
             Dbmap? dbmap = Data.Dbmaps.FirstOrDefault(m => map.Id == m.MapId);
-            if (_maps.Contains(map) && _maps.Any(m=> m.Id == map.Id) && dbmap is not null)
+            if (_maps.Contains(map) && _maps.Any(m => m.Id == map.Id) && dbmap is not null)
             {
                 _maps.Remove(map);
                 Data.Dbmaps.Remove(dbmap);
@@ -73,7 +75,7 @@
             }
         }
 
-        public void AddPOI(Map map,POI poi)
+        public void AddPOI(Map map, POI poi)
         {
             Dbmap? dbmap = Data.Dbmaps.FirstOrDefault(m => m.MapId == map.Id);
             if (_maps.Contains(map) && dbmap is not null)
@@ -100,7 +102,7 @@
             }
         }
 
-        public void ReplacePOI(Map map, POI oldPOI,POI newPOI)
+        public void ReplacePOI(Map map, POI oldPOI, POI newPOI)
         {
             Dbmap? dbmap = Data.Dbmaps.FirstOrDefault(m => m.MapId == map.Id);
             Dbpoi? dbpoi = Data.Dbpois.FirstOrDefault(p => p.Poiid == oldPOI.Id);

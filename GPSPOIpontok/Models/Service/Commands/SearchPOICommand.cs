@@ -1,21 +1,21 @@
-﻿using GPSPOIpontok.Models.Domain;
+﻿using GPSPOIpontok.Domain;
 
 namespace GPSPOIpontok.Models.Service.Commands
 {
-    public class SearchPOICommand : ICommand
+    public class SearchPOICommand : Command
     {
-        public string Name => "SearchPOI";
+        public override string Name => "SearchPOI";
         private readonly ViewMapViewModel ViewModel;
         public SearchPOICommand(ViewMapViewModel viewModel)
         {
             ViewModel = viewModel;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             if (ViewModel.SelectedMap is not null)
             {
-                ViewModel.POISearchResult = DataStore.Instance.SearchPOI(ViewModel.SelectedMap, ViewModel.SearchInputText);
+                ViewModel.POISearchResult = Data.SearchPOI(ViewModel.SelectedMap, ViewModel.SearchInputText);
             }
             else
             {

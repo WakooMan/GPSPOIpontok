@@ -1,4 +1,4 @@
-﻿using GPSPOIpontok.Models.Domain;
+﻿using GPSPOIpontok.Domain;
 using GPSPOIpontok.Models.Service;
 namespace GPSPOIpontok.Models
 {
