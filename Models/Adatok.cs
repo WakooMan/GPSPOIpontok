@@ -21,13 +21,13 @@ public partial class Adatok : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer($"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename={Directory.GetCurrentDirectory()}\\Adatok.mdf;Integrated Security=True;Connect Timeout=30");
+        => optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=E:\\Repos\\GPSPOIpontok\\Adatok.mdf;Integrated Security=True;Connect Timeout=30");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Dbmap>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DBMaps__3214EC07E23E8585");
+            entity.HasKey(e => e.MapId).HasName("PK__tmp_ms_x__3265E21BF73F4A15");
 
             entity.ToTable("DBMaps");
 
@@ -39,11 +39,17 @@ public partial class Adatok : DbContext
 
         modelBuilder.Entity<Dbpoi>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DBPOIs__3214EC070B940B20");
+            entity.HasKey(e => e.Poiid).HasName("PK__tmp_ms_x__5229E0DF0C354374");
 
             entity.ToTable("DBPOIs");
 
+            entity.Property(e => e.Poiid).HasColumnName("POIId");
             entity.Property(e => e.Image).HasColumnType("image");
+
+            entity.HasOne(d => d.Map).WithMany(p => p.Dbpois)
+                .HasForeignKey(d => d.MapId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__DBPOIs__MapId__5EBF139D");
         });
 
         OnModelCreatingPartial(modelBuilder);

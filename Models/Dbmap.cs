@@ -5,7 +5,7 @@ namespace GPSPOIpontok.Models;
 
 public partial class Dbmap
 {
-    public int Id { get; set; }
+    public int MapId { get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -24,4 +24,6 @@ public partial class Dbmap
     public double MinCoordinateLatitude { get; set; }
 
     public byte[] Image { get; set; } = null!;
+
+    public virtual ICollection<Dbpoi> Dbpois { get; } = new List<Dbpoi>();
 }

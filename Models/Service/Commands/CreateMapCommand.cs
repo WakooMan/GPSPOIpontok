@@ -14,7 +14,9 @@ namespace GPSPOIpontok.Models.Service.Commands
 
         public void Execute()
         {
-            DataStore.Instance.AddMap(new Map(ViewModel.MapName,ViewModel.Direction,ViewModel.Ratio,ViewModel.MinCoordinate, ViewModel.MaxCoordinate));
+            MemoryStream stream = new MemoryStream();
+            ViewModel.Image.CopyTo(stream);
+            DataStore.Instance.AddMap(new Map(ViewModel.MapName,ViewModel.Direction,ViewModel.Ratio,ViewModel.MinCoordinate, ViewModel.MaxCoordinate,stream.ToArray()));
         }
     }
 }

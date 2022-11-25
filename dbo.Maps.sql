@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[DBMaps] (
-    [Id]                     INT            IDENTITY (1, 1) NOT NULL,
+    [MapId]                     INT            IDENTITY (1, 1) NOT NULL,
     [Name]                   NVARCHAR (MAX) NOT NULL,
     [Lesser]                 INT            NOT NULL,
     [Greater]                INT            NOT NULL,
@@ -9,6 +9,6 @@
     [MinCoordinateLongitude] FLOAT (53)     NOT NULL,
     [MinCoordinateLatitude]  FLOAT (53)     NOT NULL,
     [Image]                  IMAGE          NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+    PRIMARY KEY CLUSTERED ([MapId] ASC)
 );
 

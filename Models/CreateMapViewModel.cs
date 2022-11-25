@@ -11,6 +11,7 @@ namespace GPSPOIpontok.Models
         public Coordinate MinCoordinate { get; set; }
         public Coordinate MaxCoordinate { get; set; }
         public string MapName { get; set; }
+        public IFormFile Image { get; set; }
         public CreateMapViewModel()
         {
             Service = new CreateMapService(this);

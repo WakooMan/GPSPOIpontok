@@ -5,7 +5,7 @@ namespace GPSPOIpontok.Models;
 
 public partial class Dbpoi
 {
-    public int Id { get; set; }
+    public int Poiid { get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -18,4 +18,8 @@ public partial class Dbpoi
     public string? Category { get; set; }
 
     public byte[]? Image { get; set; }
+
+    public int MapId { get; set; }
+
+    public virtual Dbmap Map { get; set; } = null!;
 }
