@@ -16,7 +16,7 @@ namespace GPSPOIpontok.Models.Service.Commands
         {
             MemoryStream stream = new MemoryStream();
             ViewModel.Image.CopyTo(stream);
-            Data.AddMap(new Map(ViewModel.MapName,ViewModel.Direction,ViewModel.Ratio,ViewModel.MinCoordinate, ViewModel.MaxCoordinate,stream.ToArray()));
+            Data.AddMap(new Map(ViewModel.MapName,(Direction)ViewModel.Direction,new Ratio((int)ViewModel.Lesser,(int)ViewModel.Greater),new Coordinate((double)ViewModel.MinCoordinateLatitude, (double)ViewModel.MinCoordinateLatitude), new Coordinate((double)ViewModel.MaxCoordinateLatitude, (double)ViewModel.MaxCoordinateLatitude), stream.ToArray()));
         }
     }
 }

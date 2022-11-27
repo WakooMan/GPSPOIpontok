@@ -1,4 +1,5 @@
-﻿using GPSPOIpontok.Models;
+﻿using GPSPOIpontok.Domain;
+using GPSPOIpontok.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -19,11 +20,6 @@ namespace GPSPOIpontok.Controllers
         }
 
         public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult Create()
         {
             return View();
         }

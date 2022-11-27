@@ -1,4 +1,6 @@
-﻿namespace GPSPOIpontok.Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GPSPOIpontok.Domain
 {
     public class Coordinate
     {

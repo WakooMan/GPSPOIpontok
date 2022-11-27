@@ -2,9 +2,8 @@
 using GPSPOIpontok.Models.Service;
 namespace GPSPOIpontok.Models
 {
-    public class ViewMapViewModel
+    public class ViewMapViewModel: ViewModelBase
     {
-        private readonly ViewMapService Service;
         public Map? SelectedMap { get; set; } = null;
         public POI? SelectedPOI { get; set; } = null;
         public POI? NewPOI { get; set; } = null;
@@ -13,7 +12,7 @@ namespace GPSPOIpontok.Models
         public int SelectedIndex { get; set; } = -1;
         public ViewMapViewModel()
         {
-            Service = new ViewMapService(this);
+            ModelService = new ViewMapService(this);
         }
     }
 }

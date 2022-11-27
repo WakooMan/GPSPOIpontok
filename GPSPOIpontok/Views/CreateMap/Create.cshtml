@@ -1,0 +1,151 @@
+﻿@model ErrorMessages
+@{
+	ViewData["Title"] = "Create Map";
+}
+<form method="post" action="/CreateMap/CreateMap">
+    <table>
+        <tr>
+            <th colspan="2"> <label for="Image">Image</label></th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="file" name="Image"><br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.ImageError))
+                    {
+                        <span>@Model.ImageError</span>
+
+                    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2"><label for="Name">Name</label></th>
+         
+        </tr>
+        <tr>
+            <td colspan="2"> 
+                <input type="text" name="Name" /><br />
+                @{
+                if (!string.IsNullOrEmpty(Model.MapNameError))
+                {
+                        <span>@Model.MapNameError</span>
+                }
+            }
+            </td>
+        </tr>
+    <tr>
+        <th colspan="2">
+    <label>Ratio</label>
+            </th>
+        </tr>
+        <tr>
+            <td><label for="Lesser">Lesser</label></td>
+            <td><label for="Greater">Greater</label></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="Lesser" /><br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.RatioLesserError))
+                    {
+                        <span>@Model.RatioLesserError</span>
+                    }
+                }
+            </td>
+            <td>
+                <input type="number" name="Greater" /><br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.RatioGreaterError))
+                    {
+                        <span>@Model.RatioGreaterError</span>
+                    }
+                }
+            </td>
+        </tr>
+    <tr>
+        <th colspan="2">
+    <label>Minimum Coordinates</label>
+            </th>
+        </tr>
+        <tr>
+            <td>
+    <label for="MinCoordinateLatitude">Latitude: </label>
+            </td>
+            <td>
+                <label for="MinCoordinateLongitude">Longitude: </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="MinCoordinateLatitude" /><br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.MinCoordinateLatitudeError))
+                    {
+                        <span>@Model.MinCoordinateLatitudeError</span>
+                    }
+                }
+            </td>
+            <td>
+                <input type="number" name="MinCoordinateLongitude" /><br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.MinCoordinateLongitudeError))
+                    {
+                        <span>@Model.MinCoordinateLongitudeError</span>
+                    }
+                }
+            </td>
+        </tr>
+    <tr>
+        <th colspan="2">
+                <label>Maximum Coordinates</label>
+        </th>
+    </tr>
+    <tr>
+            <td><label for="MaxCoordinateLatitude">Latitude: </label></td>
+            <td>   <label for="maxlongitude">Longitude: </label></td>
+    </tr>
+    <tr>
+            <td>
+                <input type="number" name="MaxCoordinateLatitude" /><br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.MaxCoordinateLatitudeError))
+                    {
+                        <span>@Model.MaxCoordinateLatitudeError</span>
+                    }
+                }
+            </td>
+            <td>
+                <input type="number" name="MaxCoordinateLongitude" /><br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.MaxCoordinateLongitudeError))
+                    {
+                        <span>@Model.MaxCoordinateLongitudeError</span>
+                    }
+                }
+            </td>
+    </tr>
+    <tr>
+            <th colspan="2"><label>Direction</label></th>
+    </tr>
+    <tr>
+            <td colspan="2">
+                <input type="radio" name="Direction" value="North">
+                <label for="Direction">North</label><br />
+                <input type="radio" name="Direction" value="East">
+                <label for="Direction">East</label><br />
+                <input type="radio" name="Direction" value="South">
+                <label for="Direction">South</label><br />
+                <input type="radio" name="Direction" value="West">
+                <label for="Direction">West</label><br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.DirectionError))
+                    {
+                        <span>@Model.DirectionError</span>
+                    }
+                }
+            </td>
+    </tr>
+    </table>
+    <input type="submit" value="Add Map" />
+</form>
