@@ -1,37 +1,28 @@
-﻿@model ErrorMessages
+﻿@model CreateMapViewModel
+@using GPSPOIpontok.Domain;
 @{
 	ViewData["Title"] = "Create Map";
 }
-<form method="post" action="/CreateMap/CreateMap">
+<form method="post" asp-action="CreateMap" asp-controller="CreateMap" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly"></div>
     <table>
         <tr>
             <th colspan="2"> <label for="Image">Image</label></th>
         </tr>
         <tr>
             <td colspan="2">
-                <input type="file" name="Image"><br />
-                @{
-                    if (!string.IsNullOrEmpty(Model.ImageError))
-                    {
-                        <span>@Model.ImageError</span>
-
-                    }
-                }
+                <input type="file" name="Image" value="@(Model.Image??null)"><br />
+                <span asp-validation-for="Image"></span>
             </td>
         </tr>
         <tr>
-            <th colspan="2"><label for="Name">Name</label></th>
+            <th colspan="2"><label for="MapName">Name</label></th>
          
         </tr>
         <tr>
             <td colspan="2"> 
-                <input type="text" name="Name" /><br />
-                @{
-                if (!string.IsNullOrEmpty(Model.MapNameError))
-                {
-                        <span>@Model.MapNameError</span>
-                }
-            }
+                <input type="text" name="MapName" value="@(Model.MapName??"")"/><br />
+                <span asp-validation-for="MapName"></span>
             </td>
         </tr>
     <tr>
@@ -45,22 +36,12 @@
         </tr>
         <tr>
             <td>
-                <input type="number" name="Lesser" /><br />
-                @{
-                    if (!string.IsNullOrEmpty(Model.RatioLesserError))
-                    {
-                        <span>@Model.RatioLesserError</span>
-                    }
-                }
+                <input type="number" name="Lesser" value="@(Model.Lesser is not null?Model.Lesser.ToString():"")" /><br />
+                <span asp-validation-for="Lesser"></span>
             </td>
             <td>
-                <input type="number" name="Greater" /><br />
-                @{
-                    if (!string.IsNullOrEmpty(Model.RatioGreaterError))
-                    {
-                        <span>@Model.RatioGreaterError</span>
-                    }
-                }
+                <input type="number" name="Greater" value="@(Model.Greater is not null?Model.Greater.ToString():"")" /><br />
+                <span asp-validation-for="Greater"></span>
             </td>
         </tr>
     <tr>
@@ -78,22 +59,12 @@
         </tr>
         <tr>
             <td>
-                <input type="number" name="MinCoordinateLatitude" /><br />
-                @{
-                    if (!string.IsNullOrEmpty(Model.MinCoordinateLatitudeError))
-                    {
-                        <span>@Model.MinCoordinateLatitudeError</span>
-                    }
-                }
+                <input type="number" name="MinCoordinateLatitude" value="@(Model.MinCoordinateLatitude is not null?Model.MinCoordinateLatitude.ToString():"")" /><br />
+                <span asp-validation-for="MinCoordinateLatitude"></span>
             </td>
             <td>
-                <input type="number" name="MinCoordinateLongitude" /><br />
-                @{
-                    if (!string.IsNullOrEmpty(Model.MinCoordinateLongitudeError))
-                    {
-                        <span>@Model.MinCoordinateLongitudeError</span>
-                    }
-                }
+                <input type="number" name="MinCoordinateLongitude" value="@(Model.MinCoordinateLongitude is not null?Model.MinCoordinateLongitude.ToString():"")" /><br />
+                <span asp-validation-for="MinCoordinateLongitude"></span>
             </td>
         </tr>
     <tr>
@@ -107,22 +78,12 @@
     </tr>
     <tr>
             <td>
-                <input type="number" name="MaxCoordinateLatitude" /><br />
-                @{
-                    if (!string.IsNullOrEmpty(Model.MaxCoordinateLatitudeError))
-                    {
-                        <span>@Model.MaxCoordinateLatitudeError</span>
-                    }
-                }
+                <input type="number" name="MaxCoordinateLatitude" value="@(Model.MaxCoordinateLatitude is not null?Model.MaxCoordinateLatitude.ToString():"")" /><br />
+                <span asp-validation-for="MaxCoordinateLatitude"></span>
             </td>
             <td>
-                <input type="number" name="MaxCoordinateLongitude" /><br />
-                @{
-                    if (!string.IsNullOrEmpty(Model.MaxCoordinateLongitudeError))
-                    {
-                        <span>@Model.MaxCoordinateLongitudeError</span>
-                    }
-                }
+                <input type="number" name="MaxCoordinateLongitude" value="@(Model.MaxCoordinateLongitude is not null?Model.MaxCoordinateLongitude.ToString():"")" /><br />
+                <span asp-validation-for="MaxCoordinateLongitude"></span>
             </td>
     </tr>
     <tr>
@@ -130,20 +91,15 @@
     </tr>
     <tr>
             <td colspan="2">
-                <input type="radio" name="Direction" value="North">
+                <input type="radio" name="Direction" value="North" @(Model.Direction == Direction.North?"checked":"")>
                 <label for="Direction">North</label><br />
-                <input type="radio" name="Direction" value="East">
+                <input type="radio" name="Direction" value="East" @(Model.Direction == Direction.East?"checked":"")>
                 <label for="Direction">East</label><br />
-                <input type="radio" name="Direction" value="South">
+                <input type="radio" name="Direction" value="South" @(Model.Direction == Direction.South?"checked":"")>
                 <label for="Direction">South</label><br />
-                <input type="radio" name="Direction" value="West">
+                <input type="radio" name="Direction" value="West" @(Model.Direction == Direction.West?"checked":"")>
                 <label for="Direction">West</label><br />
-                @{
-                    if (!string.IsNullOrEmpty(Model.DirectionError))
-                    {
-                        <span>@Model.DirectionError</span>
-                    }
-                }
+                <span asp-validation-for="Direction"></span>
             </td>
     </tr>
     </table>

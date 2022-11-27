@@ -17,20 +17,20 @@ namespace GPSPOIpontok.Controllers
 
         public IActionResult Create()
         {
-            return View(new ErrorMessages());
+            return View(new CreateMapViewModel());
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateMap(CreateMapViewModel map)
         {
-            ErrorMessages errors = map.GetErrorMessages();
-            if (!errors.HasError())
+            if (ModelState.IsValid)
             {
                 map.ModelService?.ExecuteCommand("CreateMap");
                 return RedirectToAction("Index","Home");
             }
             else
             {
-                return View("Create",errors);
+                return View("Create",map);
             }
         }
 
