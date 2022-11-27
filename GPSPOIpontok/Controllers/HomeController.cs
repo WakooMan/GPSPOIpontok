@@ -1,6 +1,8 @@
 ﻿using GPSPOIpontok.Domain;
 using GPSPOIpontok.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Diagnostics;
 
 namespace GPSPOIpontok.Controllers
@@ -8,15 +10,36 @@ namespace GPSPOIpontok.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public HomeController(ILogger<HomeController> logger)
+       public HomeController(ILogger<HomeController> logger, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(new HomeViewModel());
+        }
+
+        public IActionResult ChooseMap(HomeViewModel model,int index)
+        {
+            model.SelectedIndex = index;
+            model.ModelService?.ExecuteCommand("ChooseMap");
+
+            model.Image = CreateUploadedImage(model.SelectedMap.Image);
+            return View("Index",model);
+        }
+
+        private string CreateUploadedImage(byte[] image)
+        {
+            string filepath = Path.Combine(webHostEnvironment.WebRootPath,"Map.png");
+            using (var fileStream = new FileStream(filepath, FileMode.Create))
+            {
+                fileStream.Write(image);
+            }
+            return filepath;
         }
 
         public IActionResult Privacy()

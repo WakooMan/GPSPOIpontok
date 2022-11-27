@@ -27,6 +27,10 @@ namespace GPSPOIpontok.Domain
             return Latitude.GetHashCode() + Longitude.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            return $"{Latitude},{Longitude}";
+        }
         public static bool operator ==(Coordinate a, Coordinate b)
         {
             if (a is null && b is null)

@@ -7,6 +7,9 @@
         {
             commands = new List<ICommand>();
         }
+
+        protected DataStore Data => DataStore.Instance;
+
         public void ExecuteCommand(string command)
         {
             ICommand? cmd = commands.FirstOrDefault(c => c.Name == command);

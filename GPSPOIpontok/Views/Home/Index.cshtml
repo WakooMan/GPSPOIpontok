@@ -1,6 +1,46 @@
-﻿@{
+﻿@model HomeViewModel
+@using GPSPOIpontok.Domain;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>Map Viewer</h1>
+    <article>
+        <h3>Introduction</h3>
+    </article>
+    <section>
+    <aside>
+        <h5>Maps</h5>
+        <table>
+            @{
+                int i = 0;
+                foreach (Map map in Model.Maps)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(map.Name,"ChooseMap","Home",new { Model,i },new { })
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+        </table>
+    </aside>
+    <article>
+        <h4>Map Information</h4>
+        <ul>
+            <li>Name: @(Model.SelectedMap is not null?Model.SelectedMap.Name:"")</li>
+            <li>Direction: @(Model.SelectedMap is not null ? Model.SelectedMap.MapDirection.ToString() : "")</li>
+            <li>Ratio: @(Model.SelectedMap is not null ? Model.SelectedMap.MapRatio : "")</li>
+            <li>Coordinates: @(Model.SelectedMap is not null ? Model.SelectedMap.MinimumCoordinate  + " - " + Model.SelectedMap.MaximumCoordinate : "")</li>
+            <li>Image: @{
+                    if (Model.SelectedMap is not null)
+                    {
+                        <img width="300" height="300" src='~/Map.png' />
+                    }
+                }</li>
+
+        </ul>
+    </article>
+    </section>
+    

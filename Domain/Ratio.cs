@@ -25,6 +25,10 @@
             return Lesser.GetHashCode() + Greater.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            return $"{Lesser}:{Greater}";
+        }
         public static bool operator ==(Ratio a, Ratio b)
         {
             if (a is null && b is null)

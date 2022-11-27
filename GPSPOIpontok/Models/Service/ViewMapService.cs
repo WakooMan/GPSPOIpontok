@@ -7,7 +7,6 @@ namespace GPSPOIpontok.Models.Service
         
         public ViewMapService(ViewMapViewModel ViewModel) : base()
         {
-            commands.Add(new ChooseMapCommand(ViewModel));
             commands.Add(new AddPOICommand(ViewModel));
             commands.Add(new ReplacePOICommand(ViewModel));
             commands.Add(new SearchPOICommand(ViewModel));
