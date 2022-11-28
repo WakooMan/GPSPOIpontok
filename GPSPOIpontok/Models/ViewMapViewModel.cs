@@ -1,18 +1,20 @@
 ﻿using GPSPOIpontok.Domain;
-using GPSPOIpontok.Models.Service;
+using GPSPOIpontok.Models.Service.ViewMap;
+
 namespace GPSPOIpontok.Models
 {
     public class ViewMapViewModel: ViewModelBase
     {
-        public Map SelectedMap { get; }
-        public POI? SelectedPOI { get; set; } = null;
-        public POI? NewPOI { get; set; } = null;
-        public IReadOnlyList<POI>? POISearchResult { get; set; } = null;
-        public string SearchInputText { get; set; } = "";
+        private readonly ViewMapService viewMapService;
+        public Map SelectedMap { get => viewMapService.SelectedMap; }
+        public POI? SelectedPOI { get=> viewMapService.SelectedPOI; set=> viewMapService.SelectedPOI = value; }
+        public POI? NewPOI { get => viewMapService.NewPOI; set=> viewMapService.NewPOI=value; }
+        public IReadOnlyList<POI>? POISearchResult { get=> viewMapService.POISearchResult; }
+        public string SearchInputText { get=> viewMapService.SearchInputText; set=> viewMapService.SearchInputText=value; }
         public ViewMapViewModel(Map map)
         {
-            SelectedMap = map;
-            ModelService = new ViewMapService(this);
+            viewMapService = new ViewMapService(map);
+            ModelService = viewMapService;
         }
     }
 }

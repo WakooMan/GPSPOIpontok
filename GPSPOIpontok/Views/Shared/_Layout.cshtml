@@ -14,10 +14,7 @@
                     <a asp-area="" asp-controller="Home" asp-action="Index">View Maps</a>
                 </li>
                 <li>
-                    <a asp-area="" asp-controller="CreateMap" asp-action="Create">Create Map</a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    <a asp-area="" asp-controller="Map" asp-action="Create">Create Map</a>
                 </li>
             </ul>
         </nav>
@@ -25,10 +22,6 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-
-    <footer >
-            &copy; 2022 - GPSPOIpontok - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </footer>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

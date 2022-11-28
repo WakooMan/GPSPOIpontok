@@ -11,6 +11,7 @@ namespace GPSPOIpontok.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly HomeViewModel Model = new HomeViewModel();
 
        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment webHostEnvironment)
         {
@@ -20,16 +21,15 @@ namespace GPSPOIpontok.Controllers
 
         public IActionResult Index()
         {
-            return View(new HomeViewModel());
+            return View(Model);
         }
 
-        public IActionResult ChooseMap(HomeViewModel model,int index)
+        public IActionResult ChooseMap(int index)
         {
-            model.SelectedIndex = index;
-            model.ModelService?.ExecuteCommand("ChooseMap");
-
-            model.Image = CreateUploadedImage(model.SelectedMap.Image);
-            return View("Index",model);
+            Model.SelectedIndex = index;
+            Model.ModelService?.ExecuteCommand("ChooseMap");
+            Model.Image = CreateUploadedImage(Model.SelectedMap.Image);
+            return View("Index",Model);
         }
 
         private string CreateUploadedImage(byte[] image)
@@ -40,11 +40,6 @@ namespace GPSPOIpontok.Controllers
                 fileStream.Write(image);
             }
             return filepath;
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

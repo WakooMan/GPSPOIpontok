@@ -6,15 +6,16 @@ using static GPSPOIpontok.Models.CreateMapViewModel;
 
 namespace GPSPOIpontok.Controllers
 {
-    public class CreateMapController: Controller
+    public class MapController: Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<MapController> _logger;
+        private ViewMapViewModel ViewMapModel;
 
-        public CreateMapController(ILogger<HomeController> logger)
+        public MapController(ILogger<MapController> logger)
         {
             _logger = logger;
         }
-
+        #region Map Addition
         public IActionResult Create()
         {
             return View(new CreateMapViewModel());
@@ -33,6 +34,15 @@ namespace GPSPOIpontok.Controllers
                 return View("Create",map);
             }
         }
+        #endregion
+
+        #region Map View
+        public IActionResult ViewMap(Map map)
+        {
+            ViewMapModel = new ViewMapViewModel(map);
+            return View(ViewMapModel);
+        }
+        #endregion
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

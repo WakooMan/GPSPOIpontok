@@ -18,7 +18,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(map.Name,"ChooseMap","Home",new { Model,i },new { })
+                            @Html.ActionLink(map.Name,"ChooseMap","Home",new { i },new { })
                         </td>
                     </tr>
                     i++;
@@ -33,14 +33,22 @@
             <li>Direction: @(Model.SelectedMap is not null ? Model.SelectedMap.MapDirection.ToString() : "")</li>
             <li>Ratio: @(Model.SelectedMap is not null ? Model.SelectedMap.MapRatio : "")</li>
             <li>Coordinates: @(Model.SelectedMap is not null ? Model.SelectedMap.MinimumCoordinate  + " - " + Model.SelectedMap.MaximumCoordinate : "")</li>
-            <li>Image: @{
+            <li>
+                Image: <br />
+                @{
                     if (Model.SelectedMap is not null)
                     {
-                        <img width="300" height="300" src='~/Map.png' />
+                        <img width="300vw" height="300vw" src='~/Map.png' />
                     }
-                }</li>
-
+                }
+            </li>
         </ul>
+        @{
+            if (Model.SelectedMap is not null)
+            {
+                @Html.ActionLink("View Map","ViewMap","Map",new { Model.SelectedMap },new { })
+            }
+        }
     </article>
     </section>
     

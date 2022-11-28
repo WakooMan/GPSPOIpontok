@@ -1,6 +1,4 @@
-﻿using GPSPOIpontok.Models.Service.Commands;
-
-namespace GPSPOIpontok.Models.Service
+﻿namespace GPSPOIpontok.Models.Service.CreateMap
 {
     public class CreateMapService : Domain.Service
     {

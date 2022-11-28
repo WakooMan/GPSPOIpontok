@@ -1,5 +1,5 @@
 ﻿using GPSPOIpontok.Domain;
-using GPSPOIpontok.Models.Service;
+using GPSPOIpontok.Models.Service.CreateMap;
 using GPSPOIpontok.Models.ValidationAttributes;
 using System.ComponentModel.DataAnnotations;
 

@@ -61,6 +61,8 @@ namespace GPSPOIpontok.Domain
             MaximumCoordinate = maxCoord;
         }
 
+        public Map() { }
+
         public override bool Equals(object? obj)
         {
             if (obj is Map)
