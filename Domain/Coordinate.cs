@@ -4,13 +4,36 @@ namespace GPSPOIpontok.Domain
 {
     public class Coordinate
     {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        private double latitude,longitude;
+        public double Latitude 
+        { 
+            get 
+            { 
+                return latitude; 
+            }
+            set 
+            { 
+                latitude = Math.Round(value,3);
+            }
+        }
+        public double Longitude
+        {
+            get
+            {
+                return longitude;
+            }
+            set
+            {
+                longitude = Math.Round(value, 3);
+            }
+        }
         public Coordinate(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
         }
+
+        public Coordinate() { }
 
         public override bool Equals(object? obj)
         {

@@ -1,9 +1,8 @@
 ﻿using GPSPOIpontok.Domain;
 using GPSPOIpontok.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Diagnostics;
+using System.Web;
 
 namespace GPSPOIpontok.Controllers
 {
@@ -28,16 +27,16 @@ namespace GPSPOIpontok.Controllers
         {
             Model.SelectedIndex = index;
             Model.ModelService?.ExecuteCommand("ChooseMap");
-            Model.Image = CreateUploadedImage(Model.SelectedMap.Image);
+            Model.Image = CreateUploadedImage(Model.SelectedMap);
             return View("Index",Model);
         }
 
-        private string CreateUploadedImage(byte[] image)
+        private string CreateUploadedImage(Map map)
         {
             string filepath = Path.Combine(webHostEnvironment.WebRootPath,"Map.png");
             using (var fileStream = new FileStream(filepath, FileMode.Create))
             {
-                fileStream.Write(image);
+                fileStream.Write(map.Image);
             }
             return filepath;
         }

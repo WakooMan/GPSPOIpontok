@@ -1,6 +1,8 @@
 ﻿using GPSPOIpontok.Domain;
 using GPSPOIpontok.Models;
+using GPSPOIpontok.Models.Service.Home;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using static GPSPOIpontok.Models.CreateMapViewModel;
 
@@ -9,11 +11,12 @@ namespace GPSPOIpontok.Controllers
     public class MapController: Controller
     {
         private readonly ILogger<MapController> _logger;
-        private ViewMapViewModel ViewMapModel;
+        private readonly ViewMapViewModel ViewMapModel;
 
         public MapController(ILogger<MapController> logger)
         {
             _logger = logger;
+            ViewMapModel = new ViewMapViewModel(HomeData.Instance.SelectedMap);
         }
         #region Map Addition
         public IActionResult Create()
@@ -37,11 +40,97 @@ namespace GPSPOIpontok.Controllers
         #endregion
 
         #region Map View
-        public IActionResult ViewMap(Map map)
+
+        private IActionResult GetResult(POIModel? model)
         {
-            ViewMapModel = new ViewMapViewModel(map);
-            return View(ViewMapModel);
+            ViewBag.Model = ViewMapModel;
+            return View("ViewMap",model);
         }
+
+        public IActionResult ViewMap()
+        {
+            return GetResult(new POIModel());
+        }
+        [HttpPost]
+        public IActionResult AddNewPOIForm([FromBody]Coordinate coord)
+        {
+            ViewMapModel.SelectedPOI = new POI(ViewMapModel.SelectedMap,coord,"","",null,null);
+            POIModel model = new POIModel();
+            model.Latitude = coord.Latitude.ToString().Replace(',','.');
+            model.Longitude = coord.Longitude.ToString().Replace(',', '.');
+            return GetResult(model);
+        }
+        [HttpPost]
+        public IActionResult ModifyPOIForm([FromBody] Coordinate coord)
+        {
+            ViewMapModel.SelectedPOI = ViewMapModel.SelectedMap.PointOfInterests.FirstOrDefault(p=>Math.Abs(p.Coordinate.Latitude-coord.Latitude)<0.0001 && Math.Abs(p.Coordinate.Longitude - coord.Longitude)<0.0001);
+            if (ViewMapModel.SelectedPOI is not null)
+            {
+                POIModel model = new POIModel();
+                model.Latitude = ViewMapModel.SelectedPOI.Coordinate.Latitude.ToString().Replace(',', '.');
+                model.Longitude = ViewMapModel.SelectedPOI.Coordinate.Longitude.ToString().Replace(',', '.');
+                model.Name = ViewMapModel.SelectedPOI.Name;
+                model.Category = ViewMapModel.SelectedPOI.Category;
+                model.Description = ViewMapModel.SelectedPOI.Description;
+                return GetResult(model);
+            }
+            else
+            {
+                return GetResult(new POIModel());
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ReplaceSelectedPOI([FromBody]POIModel Model)
+        {
+            return GetResult(Model);
+        }
+
+        [HttpPost]
+        public IActionResult ModifyPOI(POIModel Model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                ViewMapModel.SelectedPOI = null;
+                return GetResult(new POIModel());
+            }
+            else
+            {
+                return GetResult(Model);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AddPOI(POIModel Model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Model.Image is not null)
+                {
+                    var stream = new MemoryStream();
+                    Model.Image.CopyTo(stream);
+                    ViewMapModel.SelectedPOI.Image = stream.ToArray();
+                }
+                ViewMapModel.SelectedPOI.Description = Model.Description;
+                ViewMapModel.SelectedPOI.Category = Model.Category;
+                ViewMapModel.SelectedPOI.Name = Model.Name;
+                ViewMapModel.ModelService.ExecuteCommand("AddPOI");
+                ViewMapModel.SelectedPOI = null;
+                return GetResult(new POIModel());
+            }
+            else
+            {
+                return GetResult(Model);
+            }
+        }
+        [HttpPost]
+        public IActionResult DeleteSelectedPOI(POIModel Model)
+        {
+            ViewMapModel.SelectedPOI = null;
+            return GetResult(new POIModel());
+        }
+
         #endregion
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

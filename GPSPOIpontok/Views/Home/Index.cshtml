@@ -38,7 +38,7 @@
                 @{
                     if (Model.SelectedMap is not null)
                     {
-                        <img width="300vw" height="300vw" src='~/Map.png' />
+                        <canvas id="mapcanvas"></canvas>
                     }
                 }
             </li>
@@ -46,9 +46,45 @@
         @{
             if (Model.SelectedMap is not null)
             {
-                @Html.ActionLink("View Map","ViewMap","Map",new { Model.SelectedMap },new { })
+                @Html.ActionLink("View Map","ViewMap","Map",new { },new { })
             }
         }
     </article>
-    </section>
-    
+</section>
+
+@{
+    if (Model.SelectedMap is not null)
+    {
+        <script>
+            var canvas = document.getElementById("mapcanvas");
+            var ctx = canvas.getContext("2d");
+            var image = new Image();
+            image.onload = function()
+            {
+            var oldimgwidth = image.width;
+            image.width = window.innerWidth * 0.3;
+            image.height = (image.width / oldimgwidth) * image.height;
+            ctx.canvas.width = image.width;
+            ctx.canvas.height = image.height;
+            ctx.drawImage(image, 0, 0, image.width, image.height);
+            var minlatitude = @Model.SelectedMap.MinimumCoordinate.Latitude;
+            var maxlatitude = @Model.SelectedMap.MaximumCoordinate.Latitude;
+            var minlongitude = @Model.SelectedMap.MinimumCoordinate.Longitude;
+            var maxlongitude = @Model.SelectedMap.MaximumCoordinate.Longitude;
+            var series = [
+            @foreach (POI poi in Model.SelectedMap.PointOfInterests)
+            {
+            @:{ latitude: (@(poi.Coordinate.Latitude)-minlatitude) / (minlatitude - maxlatitude), longitude: (@(poi.Coordinate.Longitude)-minlongitude) / (minlongitude - maxlongitude) },
+            }];
+            series.forEach(element=>
+                {
+                    ctx.beginPath();
+                    ctx.arc(ctx.canvas.width * element['latitude'], ctx.canvas.height * element['longitude'], 5, 0, 2 * Math.PI, false);
+                    ctx.fillStyle = 'red';
+                    ctx.fill();
+                });
+            };
+            image.src = "@Url.Content("~/Map.png")";
+        </script>
+    }
+}

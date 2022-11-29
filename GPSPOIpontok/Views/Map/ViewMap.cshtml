@@ -1,24 +1,215 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model ViewMapViewModel
+@model POIModel
 @{
 }
-<h1>@Model.SelectedMap.Name</h1>
+<h1>@ViewBag.Model.SelectedMap.Name</h1>
 <section>
-    <table>
-        <tr>
-                <td>
-                    <img src='~/Map.png' />
-                </td>
-                <td>
-                    <h6>Point Of Interests</h6>
-                </td>
-        </tr>
-        <tr>
-            <td colspan="2">
+    <aside>
+        <h6>Point Of Interests</h6>
 
-            </td>
-        </tr>
-    </table>
+    </aside>
+    <article>
+       <canvas id="mapcanvas"/>
+    </article>
 </section>
+    @{
+        if (((ViewMapViewModel)ViewBag.Model).SelectedPOI is not null)
+        {
+            <section>
+            <form action="" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly"></div>
+                <table>
+                    <tr>
+                        <td>
+                            <label for="Name">Name</label>
+                            <input type="text" name="Name" value="@(Model.Name??"")"><br />
+                            <span asp-validation-for="Name"></span>
+                        </td>
+                        <td>
+                            <label for="Description">Description</label>
+                            <input type="text" name="Description" value="@(Model.Description??"")"><br />
+                            <span asp-validation-for="Description"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Latitude">Latitude</label>
+                            <input readonly="readonly" type="text" name="Latitude" value="@(Model.Latitude??"")"><br />
+                            <span asp-validation-for="Latitude"></span>
+                        </td>
+                        <td>
+                            <label for="Longitude">Longitude</label>
+                            <input readonly="readonly" type="text" name="Longitude" value="@(Model.Longitude??"")"><br />
+                            <span asp-validation-for="Longitude"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Category">Category</label>
+                            <input type="text" name="Category" value="@(Model.Category??"")"><br />
+                            <span asp-validation-for="Category"></span>
+                        </td>
+                        <td>
+                            <label for="Image">Image</label>
+                            <input type="file" name="Image" value="@(Model.Image)"><br />
+                            <span asp-validation-for="Image"></span>
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" value="@(((ViewMapViewModel)ViewBag.Model).SelectedMap.PointOfInterests.Any(poi => poi.Id == ((ViewMapViewModel)ViewBag.Model).SelectedPOI.Id)?"Modify POI":"Add POI")" formaction="@Url.Action(((ViewMapViewModel)ViewBag.Model).SelectedMap.PointOfInterests.Any(poi=> poi.Id == ((ViewMapViewModel)ViewBag.Model).SelectedPOI.Id)?"ModifyPOI":"AddPOI","Map")">
+                <input type="submit" value="Cancel" formaction="@Url.Action("DeleteSelectedPOI","Map")">
+                </form>
+            </section>
+        }
+    }
+<script>
+    var canvas = document.getElementById("mapcanvas");
+    var ctx = canvas.getContext("2d");
+    var image = new Image();
+    var minlatitude = @ViewBag.Model.SelectedMap.MinimumCoordinate.Latitude;
+    var maxlatitude = @ViewBag.Model.SelectedMap.MaximumCoordinate.Latitude;
+    var minlongitude = @ViewBag.Model.SelectedMap.MinimumCoordinate.Longitude;
+    var maxlongitude = @ViewBag.Model.SelectedMap.MaximumCoordinate.Longitude;
+    var series;
+    image.onload = function () 
+    {
+        var oldimgwidth = image.width;
+        image.width = window.innerWidth * 0.3;
+        image.height = (image.width / oldimgwidth) * image.height;
+        ctx.canvas.width = image.width;
+        ctx.canvas.height = image.height;
+        ctx.drawImage(image, 0, 0, image.width, image.height);
+        series = [
+    @{
+        foreach (var poi in ((ViewMapViewModel)ViewBag.Model).SelectedMap.PointOfInterests)
+        {
+            if (poi.Id != ((ViewMapViewModel)ViewBag.Model).SelectedPOI?.Id)
+            {
+                <text>{ latitude: (@(
+                 poi.Coordinate.Latitude.ToString().Replace(',', '.')
+                 ) - minlatitude) / (maxlatitude - minlatitude), longitude: (@(
+            poi.Coordinate.Longitude.ToString().Replace(',', '.')
+            )-minlongitude) / (maxlongitude - minlongitude), isSelected: false }, </text>
+            }
+        }
+                if (((ViewMapViewModel)ViewBag.Model).SelectedPOI is not null)
+                {
+                    <text>{ latitude: (@Model.Latitude - minlatitude) / (maxlatitude - minlatitude), longitude: (@Model.Longitude - minlongitude) / (maxlongitude - minlongitude), isSelected: true }, </text>
+                }
+           }
+        ];
+        series.forEach(element => 
+        {
+            ctx.beginPath();
+            ctx.arc(ctx.canvas.width * element['latitude'], ctx.canvas.height * element['longitude'], 5, 0, 2 * Math.PI, false);
+            ctx.fillStyle = element['isSelected']?'green':'red';
+            ctx.fill();
+            ctx.closePath();
+        });
+    };
+    image.src = "@Url.Content("~/Map.png")";
+    canvas.addEventListener('click', function (event) {
+        var canvasLeft = canvas.offsetLeft + canvas.clientLeft,
+            canvasTop = canvas.offsetTop + canvas.clientTop;
+        var x = event.pageX - canvasLeft,
+            y = event.pageY - canvasTop;
+        var HasSelectedPOI = @(((ViewMapViewModel)ViewBag.Model).SelectedPOI is not null?"true":"false");
+        if(!HasSelectedPOI)
+        {
+            var pointpercent = series.find(e => 
+                {
+                    var point = { x: e['latitude']*ctx.canvas.width, y: e['longitude'] * ctx.canvas.height };
+                    return point['x'] - 5 <= x && x <= point['x']+5 && point['y'] - 5 <= y && y <= point['y']+5;
+                });
+            if(pointpercent != null)
+            {
+                var lat = minlatitude + ((maxlatitude-minlatitude)*pointpercent['latitude']);
+                var long = minlongitude + ((maxlongitude-minlongitude)*pointpercent['longitude']);
+                var coord = new Object();
+                coord.Latitude = lat;
+                coord.Longitude = long;
+                jQuery.ajax({ url: '@Url.Action("ModifyPOIForm", "Map")',
+                    type: "POST",
+                    dataType: 'html',
+                    data: JSON.stringify(coord),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) 
+                    {
+                        document.write(data);
+                        return true;
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        return false;
+                    }
+                    });
+            }
+            else if(series.every(e => 
+                {
+                    var point ={x: e['latitude'] * ctx.canvas.width, y: e['longitude'] * ctx.canvas.height};
+                    return (point['x'] - 10.0) > x || x > (point['x'] + 10.0) || (point['y'] - 10.0) > y || y > (point['y'] + 10.0);
+                }))
+            {
+                var lat = minlatitude+(maxlatitude-minlatitude)*(x/ctx.canvas.width);
+                var long = minlongitude + (maxlongitude - minlongitude) * (y / ctx.canvas.height);
+                var coord = new Object();
+                coord.Latitude = lat;
+                coord.Longitude = long;
+                jQuery.ajax({ url: '@Url.Action("AddNewPOIForm", "Map")',
+                    type: "POST",
+                    dataType: 'html',
+                    data: JSON.stringify(coord),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) 
+                    {
+                        document.write(data);
+                        return true;
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        return false;
+                    }
+                    });
+            }
+        }
+        else if (series.every(e => {
+            var point = { x: e['latitude'] * ctx.canvas.width, y: e['longitude'] * ctx.canvas.height };
+            return (point['x'] - 10.0) > x || x > (point['x'] + 10.0) || (point['y'] - 10.0) > y || y > (point['y'] + 10.0);
+        })) {
+            var lat = minlatitude + (maxlatitude - minlatitude) * (x / ctx.canvas.width);
+            var long = minlongitude + (maxlongitude - minlongitude) * (y / ctx.canvas.height);
+            var poi = new Object();
+            poi.Latitude = lat;
+            poi.Longitude = long;
+            poi.Name = @(Model.Name??"null");
+            poi.Image = @Model.ImageString;
+            poi.Category = @(Model.Category??"null");
+            poi.Description = @(Model.Description?? "null");
+            jQuery.ajax({
+                url: '@Url.Action("ReplaceSelectedPOI", "Map")',
+                type: "POST",
+                dataType: 'html',
+                data: JSON.stringify(poi),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    document.write(data);
+                    return true;
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    return false;
+                }
+            });
+        }
+        
+
+    }, false);
+</script>
