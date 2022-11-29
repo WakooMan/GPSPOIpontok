@@ -1,4 +1,5 @@
-﻿@*
+﻿@using GPSPOIpontok.Domain;
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @model POIModel
@@ -8,7 +9,18 @@
 <section>
     <aside>
         <h6>Point Of Interests</h6>
-
+        <form>
+        <input type ="text" name="SearchString" value=""/>
+        <input type="submit" value="Search"/>
+        </form>
+        @{
+            <ul>
+            foreach(POI poi in ((ViewMapViewModel)ViewBag.Model).POISearchResult)
+            {
+                <li>< asp-controller="Map" asp-action="ViewMap">poi.Name</></li>
+            }
+            </ul>
+        }
     </aside>
     <article>
        <canvas id="mapcanvas"/>
@@ -59,6 +71,12 @@
                     </tr>
                 </table>
                 <input type="submit" value="@(((ViewMapViewModel)ViewBag.Model).SelectedMap.PointOfInterests.Any(poi => poi.Id == ((ViewMapViewModel)ViewBag.Model).SelectedPOI.Id)?"Modify POI":"Add POI")" formaction="@Url.Action(((ViewMapViewModel)ViewBag.Model).SelectedMap.PointOfInterests.Any(poi=> poi.Id == ((ViewMapViewModel)ViewBag.Model).SelectedPOI.Id)?"ModifyPOI":"AddPOI","Map")">
+                @{
+                    if (((ViewMapViewModel)ViewBag.Model).SelectedMap.PointOfInterests.Any(poi => poi.Id == ((ViewMapViewModel)ViewBag.Model).SelectedPOI.Id))
+                               {
+                       <input type="submit" value="Delete" formaction="@Url.Action("RemovePOI","Map")" />
+                    }        
+                }
                 <input type="submit" value="Cancel" formaction="@Url.Action("DeleteSelectedPOI","Map")">
                 </form>
             </section>
@@ -184,18 +202,14 @@
         })) {
             var lat = minlatitude + (maxlatitude - minlatitude) * (x / ctx.canvas.width);
             var long = minlongitude + (maxlongitude - minlongitude) * (y / ctx.canvas.height);
-            var poi = new Object();
-            poi.Latitude = lat;
-            poi.Longitude = long;
-            poi.Name = @(Model.Name??"null");
-            poi.Image = @Model.ImageString;
-            poi.Category = @(Model.Category??"null");
-            poi.Description = @(Model.Description?? "null");
+            var coord = new Object();
+            coord.Latitude = lat;
+            coord.Longitude = long;
             jQuery.ajax({
                 url: '@Url.Action("ReplaceSelectedPOI", "Map")',
                 type: "POST",
                 dataType: 'html',
-                data: JSON.stringify(poi),
+                data: JSON.stringify(coord),
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     document.write(data);

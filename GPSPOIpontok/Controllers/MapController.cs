@@ -81,9 +81,23 @@ namespace GPSPOIpontok.Controllers
         }
 
         [HttpPost]
-        public IActionResult ReplaceSelectedPOI([FromBody]POIModel Model)
+        public IActionResult ReplaceSelectedPOI([FromBody]Coordinate coord)
         {
-            return GetResult(Model);
+            POIModel model = new POIModel();
+            model.Latitude = coord.Latitude.ToString().Replace(',', '.');
+            model.Longitude = coord.Longitude.ToString().Replace(',', '.');
+            model.Name = ViewMapModel.SelectedPOI.Name;
+            model.Category = ViewMapModel.SelectedPOI.Category;
+            model.Description = ViewMapModel.SelectedPOI.Description;
+            return GetResult(model);
+        }
+
+        [HttpPost]
+        public IActionResult RemovePOI(POIModel Model)
+        {
+            ViewMapModel.ModelService.ExecuteCommand("RemovePOI");
+            ViewMapModel.SelectedPOI = null;
+            return GetResult(new POIModel());
         }
 
         [HttpPost]
@@ -91,8 +105,18 @@ namespace GPSPOIpontok.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                byte[]? image = null;
+                if (Model.Image is not null)
+                {
+                    var stream = new MemoryStream();
+                    Model.Image.CopyTo(stream);
+                    image = stream.ToArray();
+                }
+                ViewMapModel.NewPOI = new POI(ViewMapModel.SelectedMap,new Coordinate(double.Parse(Model.Latitude.Replace('.',',')),double.Parse(Model.Longitude.Replace('.',','))),Model.Name,Model.Description,Model.Category,image);
+                ViewMapModel.NewPOI.Id = ViewMapModel.SelectedPOI.Id;
+                ViewMapModel.ModelService.ExecuteCommand("ReplacePOI");
                 ViewMapModel.SelectedPOI = null;
+                ViewMapModel.NewPOI = null;
                 return GetResult(new POIModel());
             }
             else

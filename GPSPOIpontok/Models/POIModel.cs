@@ -20,7 +20,7 @@ namespace GPSPOIpontok.Models
         public IFormFile? Image { get; set; } = null;
         [Required(ErrorMessage = "Latitude should be given.")]
         [RegularExpression(@"^[0-9]+(\.[0-9]{1,3})$", ErrorMessage = "Valid Decimal number with maximum 3 decimal places.")]
-        [DecimalRange(-180, 180, ErrorMessage = "Longitude should be between -90 and 90 number.")]
+        [DecimalRange(-90, 90, ErrorMessage = "Longitude should be between -90 and 90 number.")]
         public string? Latitude { get; set; } = null;
         [Required(ErrorMessage = "Longitude should be given.")]
         [RegularExpression(@"^[0-9]+(\.[0-9]{1,3})$", ErrorMessage = "Should be a valid decimal number with maximum 3 decimal places.")]

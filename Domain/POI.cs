@@ -4,7 +4,7 @@ namespace GPSPOIpontok.Domain
 {
     public class POI
     {
-        public int Id { get; internal set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Coordinate Coordinate { get; set; }
